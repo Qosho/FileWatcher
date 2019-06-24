@@ -1,4 +1,5 @@
 var fs = require("fs");
+var XLSX = require("xlsx");
 //Define directory to watch
 var filePath = __dirname;
 var watching = false;
@@ -28,11 +29,9 @@ function readFile(extension, path) {
             break;
         case ".xlsx":
             console.log("Reading a xlsx");
-            readXlsxFile(path).then((rows) => {
-                // `rows` is an array of rows
-                // each row being an array of cells.
-                console.log("");
-            })
+            var workbook = XLSX.readFile(path);
+            const sheet_list = workbook.SheetNames;
+            console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_list[0]]));
             break;
         default:
             break;
